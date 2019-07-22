@@ -1,6 +1,5 @@
-# Node.js-From-Scratch-Starter
-A from scratch starter template with many useful packages ready to be installed.
-
+# Node.js-Basic User Authentication API
+An API that makes user authentication simple, and secure.
 ## Features
 
 **Server-side**
