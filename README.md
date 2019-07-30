@@ -18,7 +18,6 @@ Note: The API does not handle sessions, but does keep track of the users last ti
 * [x] [MongoDB](https://www.mongodb.com/) with [Mongoose](https://github.com/Automattic/mongoose)
 * [x] **[GraphQL](http://graphql.org/)**
 * [x] [Cluster](https://nodejs.org/api/cluster.html)
-* [x] [AWS S3](https://aws.amazon.com/s3/)
 * [x] [Nodemailer](https://github.com/nodemailer/nodemailer)
 
 **Debugging Tools**
