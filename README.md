@@ -1,6 +1,16 @@
 # Node.js-Basic User Authentication API
 An API that makes user authentication simple, and secure.
+
+Note: The API does not handle sessions, but does keep track of the users last time signed in.
+
 ## Features
+* [x] User Sign-Up
+* [x] User Sign-In
+* [x] User Deletion
+* [x] User Update
+* [x] User Get
+* [x] Account Verification
+* [x] Password Reseting
 
 **Tools**
 * [x] **[Node.JS](https://nodejs.org)** v10.x.x
@@ -115,9 +125,64 @@ $ npm run cluster
 +---README.md
 +---server.js
 +---yarn.lock
-
 ```
 
-### How to connect to the Database(s) and make a save.
+### How to Use
 
-View controllers folder for an example of Querying and Mutations.
+Out of the box, the API requires the following to create a new user:
+```txt
++---firstName
++---lastName
++---email
++---username
++---password
++---securityQuestionOne
++---securityQuestionOneAnswer
++---securityQuestionTwo
++---securityQuestionTwoAnswer
++---securityQuestionThree
++---securityQuestionThreeAnswer
+```
+
+
+Examples of the API Using [Superagent](https://www.npmjs.com/package/superagent):
+
+####User Sign Up:
+```txt
+const result = await superagent.post(`${process.env.API_URL}/user/create`)
+    .send({
+      key: process.env.API_KEY,
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+      securityQuestionOne,
+      securityQuestionOneAnswer,
+      securityQuestionTwo,
+      securityQuestionTwoAnswer,
+      securityQuestionThree,
+      securityQuestionThreeAnswer
+    }).then(response => response.body);
+```
+
+####User Sign In:
+```txt
+const result = await superagent.post(`${process.env.API_URL}/user/sign-in`)
+    .send({
+      key: process.env.API_KEY,
+      username,
+      password,
+      values: 'id'
+    }).then(response => response.body);
+```
+
+####Get User:
+```txt
+const result = await superagent.get(`${process.env.API_URL}/user/username`)
+    .send({
+      key: process.env.API_KEY,
+      username,
+      values: 'id'
+    }).then(response => response.body);
+```
