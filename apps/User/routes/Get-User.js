@@ -37,6 +37,7 @@ getUserByUsername = async (body, res) => {
   if (checkQuery(result, res)) {
     return;
   }
+  result.getUserByUsername.password = undefined;
   res.send(result.getUserByUsername);
 };
 
@@ -49,13 +50,21 @@ getUserByEmail = async (body, res) => {
   if (checkQuery(result, res)) {
     return;
   }
+  result.getUserByEmail.password = undefined;
   res.send(result.getUserByEmail);
 };
 
 // Get all of the Users
 getUsers = async (body, res) => {
+  let values = body.values;
+  if (body.values.includes('password')) {
+    const valA = body.values.split(' ');
+    valA.splice(valA.indexOf('password'), 1);
+    values = valA.join(' ');
+  }
+
   const result = await graphql(userTypedefs,
-    `{ getUsers { ${body.values} } }`,
+    `{ getUsers { ${values} } }`,
     userResolvers.Query).then(response => response.data);
 
   if (checkQuery(result, res)) {

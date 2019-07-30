@@ -18,8 +18,9 @@ let getUser;
 let checkAccount;
 let updateDatabase;
 userSignIn = async (body, res) => {
+
   // get some values
-  const userVals = await getUser(body.username);
+  const userVals = await getUser(body.username, body.getValues);
 
   // username incorrect
   if (userVals === null) {
@@ -32,11 +33,11 @@ userSignIn = async (body, res) => {
 
   // destructure the values
   const {
-    id, firstName, lastName, email, locked, disabled, password, logs
+    id, disabled, locked, password
   } = userVals;
 
   // check if passwords match
-  if (!(await bcrypt.compare(body.password, password))) {
+  if (!(await bcrypt.compare(body.password, userVals.password))) {
     await lockAccount(id, logs, true);
     await updateLogs(id, 'authentication', 2);
     res.send({
@@ -46,7 +47,7 @@ userSignIn = async (body, res) => {
     return;
   }
 
-  const check = await checkAccount(id, disabled, locked);
+  const check = await checkAccount(userVals.id, userVals.disabled, userVals.locked);
 
   // other account checks
   if (check === 'disabled') {
@@ -66,23 +67,36 @@ userSignIn = async (body, res) => {
   // successfully logged in - update some values in the user doc
   const lastLogged = await updateDatabase(id);
 
+  userVals.password = undefined;
   res.send({
     status: 'success',
-    id,
-    firstName,
-    lastName,
-    email,
-    locked,
-    lastLogged
+    values: userVals
   });
 };
 
 module.exports.routes = router;
 
 // get the user password and id
-getUser = async username => graphql(userTypedefs,
-  `{ getUserByUsername(username: "${username}") { id firstName lastName email locked disabled password logs } }`,
+getUser = async (username, getValues) => {
+  if (!getValues.includes('id')) {
+    getValues += ' id'
+  }
+  if (!getValues.includes('disabled')) {
+    getValues += ' disabled'
+  }
+  if (!getValues.includes('locked')) {
+    getValues += ' locked'
+  }
+  if (!getValues.includes('password')) {
+    getValues += ' password'
+  }
+
+  const result = await graphql(userTypedefs,
+  `{ getUserByUsername(username: "${username}") { ${getValues} } }`,
   userResolvers.Query).then(response => response.data.getUserByUsername);
+
+  return result;
+}
 
 // check the account is allowed to login
 checkAccount = async (id, disabled, locked) => {

@@ -16,8 +16,5 @@ updateUser = async (id) => {
   } else {
     lastLogged = lastLogged.dateLastLoggedIn;
   }
-  lastLogged = lastLogged.toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'
-  });
   return lastLogged;
 };
