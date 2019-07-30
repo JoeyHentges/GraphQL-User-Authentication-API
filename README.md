@@ -146,7 +146,7 @@ Out of the box, the API requires the following to create a new user:
 
 Examples of the API Using [Superagent](https://www.npmjs.com/package/superagent):
 
-####User Sign Up:
+#### User Sign Up:
 ```txt
 const result = await superagent.post(`${process.env.API_URL}/user/create`)
     .send({
@@ -165,7 +165,7 @@ const result = await superagent.post(`${process.env.API_URL}/user/create`)
     }).then(response => response.body);
 ```
 
-####User Sign In:
+#### User Sign In:
 ```txt
 const result = await superagent.post(`${process.env.API_URL}/user/sign-in`)
     .send({
@@ -176,7 +176,7 @@ const result = await superagent.post(`${process.env.API_URL}/user/sign-in`)
     }).then(response => response.body);
 ```
 
-####Get User:
+#### Get User:
 ```txt
 const result = await superagent.get(`${process.env.API_URL}/user/username`)
     .send({
