@@ -9,15 +9,15 @@ const router = express.Router();
 
 let updateUser;
 
-router.post('/update', checkKey, upload.single('file'), async (req, res) => updateUser(req.query, req.file, res));
+router.post('/update', checkKey, upload.single('file'), async (req, res) => updateUser(req.body, req.file, res));
 
 // update an User value
-updateUser = async (query, file, res) => {
+updateUser = async (body, file, res) => {
   // parameters
   const {
     id, variable
-  } = query;
-  let { value } = query;
+  } = body;
+  let { value } = body;
 
   if (variable === 'profilePage.image') {
     value = `data:image/jpeg;base64,${file.buffer.toString('base64')}`;

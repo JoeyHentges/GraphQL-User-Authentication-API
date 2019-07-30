@@ -5,11 +5,11 @@ const router = express.Router();
 
 let updateLogged;
 
-router.post('/update-last-logged-in', checkKey, async (req, res) => updateLogged(req.query, res));
+router.post('/update-last-logged-in', checkKey, async (req, res) => updateLogged(req.body, res));
 
 // Update a user's last logged in value
-updateLogged = async (query, res) => {
-  const lastLogged = await updateLastLogged(query.id);
+updateLogged = async (body, res) => {
+  const lastLogged = await updateLastLogged(body.id);
 
   res.send({
     status: 'success',

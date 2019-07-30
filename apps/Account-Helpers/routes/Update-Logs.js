@@ -5,12 +5,12 @@ const router = express.Router();
 
 let addLogs;
 
-router.post('/update-logs', checkKey, async (req, res) => addLogs(req.query, res));
+router.post('/update-logs', checkKey, async (req, res) => addLogs(req.body, res));
 
 // Update the logs for a Company, Admin or User
-addLogs = async (query, res) => {
+addLogs = async (body, res) => {
   await updateLogs(
-    query.id, query.type, query.messageNumber, query.logValue
+    body.id, body.type, body.messageNumber, body.logValue
   );
 
   res.send({

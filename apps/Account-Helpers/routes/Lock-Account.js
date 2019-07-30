@@ -6,15 +6,15 @@ const router = express.Router();
 
 let lockAccount;
 
-router.post('/lock-account', checkKey, async (req, res) => lockAccount(req.query, res));
+router.post('/lock-account', checkKey, async (req, res) => lockAccount(req.body, res));
 
 // lock some users account
 let updateAccount;
-lockAccount = async (query, res) => {
+lockAccount = async (body, res) => {
   // parameters
   const {
     id, logs, lock
-  } = query;
+  } = body;
 
   res.send({
     locked: updateAccount(id, logs, lock)

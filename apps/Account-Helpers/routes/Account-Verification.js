@@ -13,14 +13,14 @@ let getAccountVerification;
 let accountVerified;
 let sendAccountVerification;
 
-router.get('/account-verification', checkKey, async (req, res) => getAccountVerification(req.query, res));
-router.post('/account-verification', checkKey, async (req, res) => accountVerified(req.query, res));
-router.post('/send-account-verification', checkKey, async (req, res) => sendAccountVerification(req.query, res));
+router.get('/account-verification', checkKey, async (req, res) => getAccountVerification(req.body, res));
+router.post('/account-verification', checkKey, async (req, res) => accountVerified(req.body, res));
+router.post('/send-account-verification', checkKey, async (req, res) => sendAccountVerification(req.body, res));
 
 // Get an account verification by its id
-getAccountVerification = async (query, res) => {
+getAccountVerification = async (body, res) => {
   const result = await graphql(AccountVerificationTypedefs,
-    `{ getAccountVerificationById(id: "${query.id}") { ${query.values} } }`,
+    `{ getAccountVerificationById(id: "${body.id}") { ${body.values} } }`,
     AccountVerificationResolvers.Query).then(response => response.data);
 
   if (checkQuery(result, res)) {
@@ -31,11 +31,11 @@ getAccountVerification = async (query, res) => {
 
 // Update an admin or user document to reflect their account is verified
 let updateUser;
-accountVerified = async (query, res) => {
+accountVerified = async (body, res) => {
   // parameters
   const {
     verificationId, id
-  } = query;
+  } = body;
 
   updateUser(verificationId, id);
 
@@ -46,11 +46,11 @@ accountVerified = async (query, res) => {
 
 // send an account verification email
 let sendEmail;
-sendAccountVerification = async (query, res) => {
+sendAccountVerification = async (body, res) => {
   // parameters
   const {
     id, username, email, firstName
-  } = query;
+  } = body;
 
   await sendEmail(res, id, username, email, firstName);
 

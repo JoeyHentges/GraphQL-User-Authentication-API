@@ -14,14 +14,14 @@ let getPasswordReset;
 let sendPasswordReset;
 let resetPassword;
 
-router.get('/password-reset', checkKey, async (req, res) => getPasswordReset(req.query, res));
-router.post('/send-password-reset', checkKey, async (req, res) => sendPasswordReset(req.query, res));
-router.post('/password-reset', checkKey, async (req, res) => resetPassword(req.query, res));
+router.get('/password-reset', checkKey, async (req, res) => getPasswordReset(req.body, res));
+router.post('/send-password-reset', checkKey, async (req, res) => sendPasswordReset(req.body, res));
+router.post('/password-reset', checkKey, async (req, res) => resetPassword(req.body, res));
 
 // Get a password reset by its id
-getPasswordReset = async (query, res) => {
+getPasswordReset = async (body, res) => {
   const result = await graphql(PasswordResetTypedefs,
-    `{ getPasswordResetById(id: "${query.id}") { ${query.values} } }`,
+    `{ getPasswordResetById(id: "${body.id}") { ${body.values} } }`,
     PasswordResetResolvers.Query).then(response => response.data);
 
   if (checkQuery(result, res)) {
@@ -32,11 +32,11 @@ getPasswordReset = async (query, res) => {
 
 // send a password reset email
 let sendPasswordResetEmail;
-sendPasswordReset = async (query, res) => {
+sendPasswordReset = async (body, res) => {
   // parameters
   const {
     email
-  } = query;
+  } = body;
 
   // Get the user values
   const result = await graphql(userTypedefs,
@@ -71,13 +71,13 @@ sendPasswordReset = async (query, res) => {
 // reset a password
 let checkSecurityQuestions;
 let updateUser;
-resetPassword = async (query, res) => {
+resetPassword = async (body, res) => {
   // parameters
   const {
     id, userId, newPassword,
     questionOne, questionOneAnswer,
     questionTwo, questionTwoAnswer
-  } = query;
+  } = body;
 
   // Get the user values
   const questions = await graphql(userTypedefs,

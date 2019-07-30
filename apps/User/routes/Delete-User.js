@@ -9,15 +9,15 @@ const router = express.Router();
 
 let deleteDoc;
 
-router.delete('/delete', checkKey, async (req, res) => deleteDoc(req.query, res));
+router.delete('/delete', checkKey, async (req, res) => deleteDoc(req.body, res));
 
 let getUser;
 let deleteUser;
-deleteDoc = async (query, res) => {
+deleteDoc = async (body, res) => {
   // parameters
   const {
     username, password
-  } = query;
+  } = body;
 
   // get some values
   const result = await getUser(username);

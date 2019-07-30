@@ -8,20 +8,20 @@ const router = express.Router();
 
 let createUser;
 
-router.post('/create', checkKey, async (req, res) => createUser(req.query, res));
+router.post('/create', checkKey, async (req, res) => createUser(req.body, res));
 
 // Create the user document
 let checkForUsername;
 let createUserAccount;
 let checkForEmail;
-createUser = async (query, res) => {
+createUser = async (body, res) => {
   // parameters
   const {
     firstName, lastName, email, username, password,
     securityQuestionOne, securityQuestionOneAnswer,
     securityQuestionTwo, securityQuestionTwoAnswer,
     securityQuestionThree, securityQuestionThreeAnswer
-  } = query;
+  } = body;
 
   // Check for the username
   if (!(await checkForUsername(username))) {

@@ -11,15 +11,15 @@ let getUserByUsername;
 let getUserByEmail;
 let getUsers;
 
-router.get('/id', checkKey, async (req, res) => getUserById(req.query, res));
-router.get('/username', checkKey, async (req, res) => getUserByUsername(req.query, res));
-router.get('/email', checkKey, async (req, res) => getUserByEmail(req.query, res));
-router.get('/all', checkKey, async (req, res) => getUsers(req.query, res));
+router.get('/id', checkKey, async (req, res) => getUserById(req.body, res));
+router.get('/username', checkKey, async (req, res) => getUserByUsername(req.body, res));
+router.get('/email', checkKey, async (req, res) => getUserByEmail(req.body, res));
+router.get('/all', checkKey, async (req, res) => getUsers(req.body, res));
 
 // Get the User by its ID
-getUserById = async (query, res) => {
+getUserById = async (body, res) => {
   const result = await graphql(userTypedefs,
-    `{ getUserById(id: "${query.id}") { ${query.values} } }`,
+    `{ getUserById(id: "${body.id}") { ${body.values} } }`,
     userResolvers.Query).then(response => response.data);
 
   if (checkQuery(result, res)) {
@@ -29,9 +29,9 @@ getUserById = async (query, res) => {
 };
 
 // Get the User by its Username
-getUserByUsername = async (query, res) => {
+getUserByUsername = async (body, res) => {
   const result = await graphql(userTypedefs,
-    `{ getUserByUsername(username: "${query.username}") { ${query.values} } }`,
+    `{ getUserByUsername(username: "${body.username}") { ${body.values} } }`,
     userResolvers.Query).then(response => response.data);
 
   if (checkQuery(result, res)) {
@@ -41,9 +41,9 @@ getUserByUsername = async (query, res) => {
 };
 
 // Get the User by its Email
-getUserByEmail = async (query, res) => {
+getUserByEmail = async (body, res) => {
   const result = await graphql(userTypedefs,
-    `{ getUserByEmail(email: "${query.email}") { ${query.values} } }`,
+    `{ getUserByEmail(email: "${body.email}") { ${body.values} } }`,
     userResolvers.Query).then(response => response.data);
 
   if (checkQuery(result, res)) {
@@ -53,9 +53,9 @@ getUserByEmail = async (query, res) => {
 };
 
 // Get all of the Users
-getUsers = async (query, res) => {
+getUsers = async (body, res) => {
   const result = await graphql(userTypedefs,
-    `{ getUsers { ${query.values} } }`,
+    `{ getUsers { ${body.values} } }`,
     userResolvers.Query).then(response => response.data);
 
   if (checkQuery(result, res)) {

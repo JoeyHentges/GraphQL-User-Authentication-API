@@ -12,14 +12,14 @@ const router = express.Router();
 
 let userSignIn;
 
-router.post('/sign-in', checkKey, async (req, res) => userSignIn(req.query, res));
+router.post('/sign-in', checkKey, async (req, res) => userSignIn(req.body, res));
 
 let getUser;
 let checkAccount;
 let updateDatabase;
-userSignIn = async (query, res) => {
+userSignIn = async (body, res) => {
   // get some values
-  const userVals = await getUser(query.username);
+  const userVals = await getUser(body.username);
 
   // username incorrect
   if (userVals === null) {
@@ -36,7 +36,7 @@ userSignIn = async (query, res) => {
   } = userVals;
 
   // check if passwords match
-  if (!(await bcrypt.compare(query.password, password))) {
+  if (!(await bcrypt.compare(body.password, password))) {
     await lockAccount(id, logs, true);
     await updateLogs(id, 'authentication', 2);
     res.send({
