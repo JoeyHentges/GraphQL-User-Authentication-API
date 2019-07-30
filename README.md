@@ -52,7 +52,6 @@ $ npm run cluster
 |       +---app_list.js
 |       +---apps.js
 |       +---initialize_apps.js
-|
 |   +---Account-Helpers
 |       +---controllers
 |       |   +---resolvers
@@ -69,7 +68,6 @@ $ npm run cluster
 |       |   +---Update-Logs.js
 |       +---Account-Helpers-exports.js
 |       +---app_main.js
-|
 |   +---User
 |       +---controllers
 |       |   +---resolvers
@@ -85,18 +83,14 @@ $ npm run cluster
 |       |   +---User-Sign-In.js
 |       +---app_main.js
 |       +---User-exports.js=
-|
 |   +---configs.js
 |   +---tools.js
 |
 +---main
-|   +---aws-s3
-|       +---s3_config.js
-|       +---s3_connection.js
-|
-|   +---db
-|       +---db_config.js
-|       +---db_connection.js
+|   +---config
+|       +---db
+|           +---db_config.js
+|           +---db_connection.js
 |
 +---controllers
 |   +---api-tools
