@@ -62,7 +62,7 @@ const createUser = async (
   return user;
 };
 
-const deleteUser = async id => User.findByIdAndRemove(id, (err, result) => result);
+const deleteUser = async id => User.findByIdAndDelete(id).then( result => result);
 
 const updateUser = async (id, updateVariable, updateValue) => {
   if (updateValue === '~DATETIME~') {
