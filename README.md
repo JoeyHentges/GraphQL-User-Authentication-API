@@ -1,5 +1,5 @@
 # Node.js-Basic User Authentication API
-An API that makes user authentication simple, and secure.
+An API that makes user authentication simple.
 
 Note: The API does not handle sessions, but does keep track of the users last time signed in.
 
